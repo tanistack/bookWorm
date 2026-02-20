@@ -8,6 +8,8 @@ const cors = require("cors");
 const rateLimiter = require("express-rate-limit");
 
 const authenticateUser = require("./middleware/authentication");
+const authRouter = require("./routes/auth");
+const booksRouter = require("./routes/books");
 
 //error handlers
 const notFoundMiddleware = require("./middleware/not-found");
@@ -37,6 +39,9 @@ app.use(xss());
 app.get("/", (req,res)=>{
     res.send("The Book Worm Leads");
 });
+
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/books", booksRouter);
 
 
 app.use(notFoundMiddleware);
