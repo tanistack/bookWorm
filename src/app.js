@@ -19,6 +19,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const port = process.env.PORT || 5000;
 
+//dbconnection
+const dbConnection = require("./db/connect");
+
 
 const app = express();
 app.use(express.json());
@@ -41,7 +44,7 @@ app.get("/", (req,res)=>{
 });
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/books", booksRouter);
+app.use("/api/v1/books", authenticateUser, booksRouter);
 
 
 app.use(notFoundMiddleware);
@@ -49,16 +52,15 @@ app.use(errorHandlerMiddleware);
 
 
 const start = async ()=>{
+    await dbConnection();
+
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI);
         app.listen(port, ()=>{
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-        console.log(`Server up and running on Port: ${port}`);
+        console.log(`Server up and running and listening on ${port}`)
     });
 
     } catch (error) {
-        console.log(`Something went wrong, ${error}`);
-        process.exit(1);
+       console.log(`Server error, ${error}`); 
     }
 }
 

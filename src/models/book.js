@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
 
 const BookSchema = mongoose.Schema({
     name:{
         type:String,
-        required:[true, "The book name is required"]
+        required:[true, "The book name is required"],
+        unique:true,
+        trim:true
     },
 
     caption:{
@@ -15,6 +15,8 @@ const BookSchema = mongoose.Schema({
     },
     rating:{
         type:String,
+        min: 1,
+        max: 5,
     },
 
     image:{
