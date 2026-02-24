@@ -21,7 +21,7 @@ const port = process.env.PORT || 5000;
 
 //dbconnection
 const dbConnection = require("./db/connect");
-import cron from "./lib/cron";
+const cron = require("./lib/cron");
 
 cron.start();
 
