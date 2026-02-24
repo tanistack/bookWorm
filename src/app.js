@@ -23,7 +23,7 @@ const port = process.env.PORT || 5000;
 const dbConnection = require("./db/connect");
 const cron = require("./lib/cron");
 
-cron.start();
+job.start();
 
 const app = express();
 app.use(express.json());
