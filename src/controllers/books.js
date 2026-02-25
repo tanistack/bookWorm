@@ -5,9 +5,9 @@ const { BadRequestError, NotFoundError } = require("../errors");
 const getAllBooks = async (req, res) => {
   const books = await Book.find({})
     .sort("-createdAt")
-    .populate("createdBy", "username profileImage")
-    .skip(skip)
-    .limit(limit);
+    .populate("createdBy", "username profileImage");
+  // .skip(skip)
+  // .limit(limit);
 
   const count = books.length;
   res.status(StatusCodes.OK).json({ books, count: count });
