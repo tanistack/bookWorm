@@ -39,10 +39,13 @@ const login = async (req, res) => {
 
   res.status(StatusCodes.OK).json({
     user: {
+      _id: user._id,
       username: user.username,
-      userId: user._id,
+      email: user.email,
       profileImage: user.profileImage,
+      createdAt: user.createdAt,
     },
+
     token,
   });
 };
