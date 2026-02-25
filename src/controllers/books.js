@@ -3,9 +3,10 @@ const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors");
 
 const getAllBooks = async (req, res) => {
-  const books = await Book.find({ createdBy: req.user.userId }).sort(
-    "-createdAt",
-  );
+  const books = await Book.find({ createdBy: req.user.userId })
+    .sort("-createdAt")
+    .populate("createdBy", "username profileImage")
+    .sort("-createdAt");
   const count = books.length;
   res.status(StatusCodes.OK).json({ books, count: count });
 };

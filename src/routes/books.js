@@ -15,7 +15,10 @@ router.route("/:id").get(getBook).patch(updateBook).delete(deleteBook);
 router.get("/user", async (req, res) => {
   try {
     // ✅ req.user comes from JWT
-    const books = await Book.find({ user: req.user }).sort({ createdAt: -1 });
+    const books = await Book.find({ user: req.user })
+      .sort({ createdAt: -1 })
+      .populate("createdBy", "username profileImage")
+      .sort("-createdAt");
 
     res.json(books);
   } catch (error) {
