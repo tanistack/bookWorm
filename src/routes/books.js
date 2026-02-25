@@ -12,7 +12,7 @@ const {
 router.route("/").get(getAllBooks).post(createBook);
 router.route("/:id").get(getBook).patch(updateBook).delete(deleteBook);
 
-router.get("/user", protect, async (req, res) => {
+router.get("/user", async (req, res) => {
   try {
     // ✅ req.user comes from JWT
     const books = await Book.find({ user: req.user }).sort({ createdAt: -1 });
