@@ -5,7 +5,6 @@ const BookSchema = mongoose.Schema(
     title: {
       type: String,
       required: [true, "The book title is required"],
-      unique: true,
       trim: true,
     },
 
@@ -34,6 +33,6 @@ const BookSchema = mongoose.Schema(
 );
 
 // unique per user, not globally
-BookSchema.index({ title: 1, createdBy: 1 }, { unique: true });
+// BookSchema.index({ title: 1, createdBy: 1 }, { unique: true });
 
 module.exports = mongoose.model("Book", BookSchema);
