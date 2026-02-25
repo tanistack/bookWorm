@@ -6,8 +6,6 @@ const getAllBooks = async (req, res) => {
   const books = await Book.find({})
     .sort("-createdAt")
     .populate("createdBy", "username profileImage");
-  // .skip(skip)
-  // .limit(limit);
 
   const count = books.length;
   res.status(StatusCodes.OK).json({ books, count: count });
@@ -30,8 +28,13 @@ const getBook = async (req, res) => {
 };
 
 const createBook = async (req, res) => {
+  const { title, caption, rating, image } = req.body;
+
   const book = await Book.create({
-    ...req.body,
+    title,
+    caption,
+    rating,
+    image,
     createdBy: req.user.userId,
   });
 
