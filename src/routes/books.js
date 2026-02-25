@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Book = require("../routes/books");
+
+const Book = require("../models/book");
+const authenticateUser = require("../middleware/authentication");
+
 const {
   getAllBooks,
   createBook,
@@ -10,20 +13,26 @@ const {
 } = require("../controllers/books");
 
 router.route("/").get(getAllBooks).post(createBook);
-router.route("/:id").get(getBook).patch(updateBook).delete(deleteBook);
 
+// GET logged-in user's books
 router.get("/user", async (req, res) => {
   try {
-    // ✅ req.user comes from JWT
-    const books = await Book.find({ user: req.user })
-      .sort({ createdAt: -1 })
+    const books = await Book.find({
+      createdBy: req.user.userId,
+    })
       .populate("createdBy", "username profileImage")
       .sort("-createdAt");
 
-    res.json(books);
+    res.status(200).json({
+      count: books.length,
+      books,
+    });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.route("/:id").get(getBook).patch(updateBook).delete(deleteBook);
 
 module.exports = router;

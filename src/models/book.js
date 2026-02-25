@@ -33,4 +33,7 @@ const BookSchema = mongoose.Schema(
   { timestamps: true },
 );
 
+// unique per user, not globally
+BookSchema.index({ title: 1, createdBy: 1 }, { unique: true });
+
 module.exports = mongoose.model("Book", BookSchema);
